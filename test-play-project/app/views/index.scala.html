@@ -1,0 +1,16 @@
+@(greeting: String)
+
+<link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")'>
+<script src='@routes.Assets.versioned("svelte/components/greeting-form.js")'></script>
+<link rel="stylesheet" href='@routes.Assets.versioned("svelte/components/greeting-form.css")'>
+
+<div id="app"></div>
+
+<script>
+  new GreetingForm.default({
+    target: document.getElementById('app'),
+    props: {
+      greeting: @Html(libraries.Renderer(greeting))
+    }
+  });
+</script>

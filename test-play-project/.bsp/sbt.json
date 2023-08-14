@@ -1,0 +1,1 @@
+{"name":"sbt","version":"1.7.2","bspVersion":"2.0.0-M5","languages":["scala"],"argv":["/Users/tanin/.sdkman/candidates/java/11.0.11.j9-adpt/bin/java","-Xms100m","-Xmx100m","-classpath","/Users/tanin/.sdkman/candidates/sbt/1.9.1/bin/sbt-launch.jar","-Dsbt.script=/Users/tanin/.sdkman/candidates/sbt/current/bin/sbt","xsbt.boot.Boot","-bsp"]}
