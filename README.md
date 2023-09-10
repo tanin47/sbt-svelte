@@ -24,7 +24,9 @@ How to use
 Add the below line to `project/plugins.sbt`:
 
 ```
-addSbtPlugin("io.github.tanin47" % "sbt-svelte" % "0.1.0")
+lazy val root =
+  Project("plugins", file(".")).aggregate(SbtSvelte).dependsOn(SbtSvelte)
+lazy val SbtSvelte = RootProject(uri("https://github.com/tanin47/sbt-svelte.git#<pick_a_commit>"))
 ```
 
 The artifacts are published to Maven Central here: https://search.maven.org/artifact/io.github.tanin47/sbt-svelte
