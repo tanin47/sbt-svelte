@@ -8,7 +8,7 @@
   let jsButton: OurJsButton;
 
   $: if (toggleValue) {
-    toggleText = 'on101010';
+    toggleText = 'on';
   } else {
     toggleText = 'off';
   }
