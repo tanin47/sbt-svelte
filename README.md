@@ -16,7 +16,7 @@ Requirements
 
 * __[Webpack 5.x](https://webpack.js.org/):__ you'll need to specify the webpack binary location and webpack's configuration localtion. This enables you to choose your own version of Webpack and your own Webpack's configuration. You can see an example in the folder `test-play-project`.
 * __Playframework 2.8.x__
-* __Scala >= 2.12.x and SBT 1.x:__ Because the artifact is only published this setting (See: https://search.maven.org/artifact/io.github.tanin47/sbt-svelte/0.1.0/jar). If you would like other combinations of Scala and SBT versions, please open an issue.
+* __Scala >= 2.12.x and SBT 1.x:__ Because the artifact is only published this setting. If you would like other combinations of Scala and SBT versions, please open an issue.
 
 How to use
 -----------
@@ -30,8 +30,6 @@ lazy val root =
   Project("plugins", file(".")).aggregate(SbtSvelte).dependsOn(SbtSvelte)
 lazy val SbtSvelte = RootProject(uri("https://github.com/tanin47/sbt-svelte.git#<pick_a_commit>"))
 ```
-
-The artifacts are published to Maven Central here: https://search.maven.org/artifact/io.github.tanin47/sbt-svelte
 
 ### 2. Configure Webpack config file.
 

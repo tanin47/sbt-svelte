@@ -12,7 +12,7 @@ lazy val `sbt-svelte` = (project in file("."))
     testFrameworks += new TestFramework("utest.runner.Framework")
   )
 
-addSbtWeb("1.5.3")
+addSbtJsEngine("1.2.3")
 
 addCommandAlias(
   "fmt",
