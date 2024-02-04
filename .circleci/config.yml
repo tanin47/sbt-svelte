@@ -1,0 +1,55 @@
+version: '2.1'
+
+orbs:
+  browser-tools: circleci/browser-tools@1.4.6
+
+jobs:
+  build:
+    docker:
+      - image: cimg/openjdk:11.0.21-browsers
+
+    working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx16G -XX:+UseG1GC
+      TERM: dumb
+
+    steps:
+      - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          name: Check install
+          command: |
+            google-chrome --version
+            chromedriver --version
+
+      - restore_cache:
+          name: Restore Node app dependencies
+          keys:
+          - node-v1-{{ checksum "package.json" }}
+          - node-v1
+      - restore_cache:
+          name: Restore Scala dependencies
+          keys:
+            - scala-v1-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}
+            - scala-v1-
+
+      - run: npm install
+      - run: sbt test
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: node-v1-{{ checksum "package.json" }}
+
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.ivy2/cache
+            - ~/.sbt
+            - ~/.cache
+            - .bloop
+            - .metals
+            - target
+          key: scala-v1-{{ checksum "project/plugins.sbt" }}-{{ checksum "build.sbt" }}

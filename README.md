@@ -1,6 +1,8 @@
 sbt-svelte
 ===========
 
+[![CircleCI](https://circleci.com/gh/tanin47/sbt-svelte.svg?style=svg)](https://circleci.com/gh/tanin47/sbt-svelte)
+
 sbt-svelte integrates Webpack + Svelte into Playframework's asset generation.
 
 It eliminates the need to run a separate node process to hot-reload your Svelte code. Moreover, it enables you to mix between SPA and non-SPA pages in your application; it's your choice whether to use SPA or not.

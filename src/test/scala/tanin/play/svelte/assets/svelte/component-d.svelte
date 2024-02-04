@@ -3,7 +3,3 @@
 </script>
 
 <div class="inline-beautiful-box">D<ComponentC /></div>
-
-<style>
-  .inline-beautiful-box { color: red; }
-</style>
