@@ -29,6 +29,8 @@ class Shell {
 
     exitCode
   }
+
+  def fileExists(file: File): Boolean = file.exists()
 }
 
 class ComputeDependencyTree {
@@ -205,6 +207,7 @@ class Compiler(
       success = success,
       entries = if (success) {
         val dependencyMap = dependencyComputer.apply(targetDir / "sbt-js-tree.json")
+
         inputs.map { input =>
           val outputJsRelativePath =
             sourceDir.toPath.relativize((input.path.getParent.toFile / s"${input.path.toFile.base}.js").toPath).toString
@@ -222,7 +225,7 @@ class Compiler(
           CompilationEntry(
             inputFile = input.path.toFile,
             filesRead = dependencies,
-            filesWritten = Set(outputJsFile, outputCssFile).filter(_.exists()).map(_.toPath)
+            filesWritten = Set(outputJsFile, outputCssFile).filter(shell.fileExists).map(_.toPath)
           )
         }
       } else {

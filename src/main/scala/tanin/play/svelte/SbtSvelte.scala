@@ -136,7 +136,7 @@ object SbtSvelte extends AutoPlugin {
       val endInstant = System.currentTimeMillis
 
       if (createdFiles.nonEmpty) {
-        logger.info(s"[Svelte] finished compilation in ${endInstant - startInstant} ms and generated ${createdFiles.size} JS files")
+        logger.info(s"[Svelte] finished compilation in ${endInstant - startInstant} ms and generated ${createdFiles.size} files")
       }
 
       (opResults, createdFiles)

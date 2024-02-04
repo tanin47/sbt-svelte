@@ -46,7 +46,7 @@ object CompilerSpec extends BaseSpec {
       }
 
       "fails" - {
-        when(shell.execute(any(), any(), any())).thenReturn(1)
+        when(shell.execute(any(), any(), any(), any())).thenReturn(1)
 
         val (module1, file1) = Seq("a", "b", "c").mkString(Path.sep.toString) -> (sourceDir / "a" / "b" / "c.svelte")
         val (module2, file2) = Seq("a", "b").mkString(Path.sep.toString) -> (sourceDir / "a" / "b.svelte")
@@ -59,6 +59,7 @@ object CompilerSpec extends BaseSpec {
           .apply(originalWebpackConfig = originalConfigFile, inputs = Seq(Input(module1, file1.toPath), Input(module2, file2.toPath)))
         verifyZeroInteractions(computeDependencyTree)
         verify(shell).execute(
+          any[ManagedLogger](),
           eq(
             Seq(
               webpackBinaryFile.getCanonicalPath,
@@ -81,7 +82,10 @@ object CompilerSpec extends BaseSpec {
         val (module1, file1) = Seq("a", "b", "c").mkString(Path.sep.toString) -> (sourceDir / "a" / "b" / "c.svelte")
         val (module2, file2) = Seq("a", "b").mkString(Path.sep.toString)      -> (sourceDir / "a" / "b.svelte")
 
-        when(shell.execute(any(), any(), any())).thenReturn(0)
+        when(shell.fileExists(any())).thenReturn(false)
+        when(shell.fileExists(argThat[File] { f => Set("c.js", "b.js", "b.css").contains(f.getName) })).thenReturn(true)
+
+        when(shell.execute(any(), any(), any(), any())).thenReturn(0)
         when(computeDependencyTree.apply(any[File]())).thenReturn(
           Map(
             Seq("a", "b", "c.svelte").mkString(Path.sep.toString) -> Set(Seq("a", "b", "c.svelte").mkString(Path.sep.toString)),
@@ -103,12 +107,13 @@ object CompilerSpec extends BaseSpec {
 
         Files.isSameFile(result.entries(1).inputFile.toPath, inputPaths(1)) ==> true
         result.entries(1).filesRead ==> Set((sourceDir / "a" / "b.svelte").toPath, (sourceDir / "a" / "b" / "c.svelte").toPath)
-        result.entries(1).filesWritten ==> Set((targetDir / "a" / "b.js").toPath)
+        result.entries(1).filesWritten ==> Set((targetDir / "a" / "b.js").toPath, (targetDir / "a" / "b.css").toPath)
 
         verify(prepareWebpackConfig)
           .apply(originalWebpackConfig = originalConfigFile, inputs = Seq(Input(module1, file1.toPath), Input(module2, file2.toPath)))
         verify(computeDependencyTree).apply(targetDir / "sbt-js-tree.json")
         verify(shell).execute(
+          any[ManagedLogger](),
           eq(
             Seq(
               webpackBinaryFile.getCanonicalPath,

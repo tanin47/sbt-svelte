@@ -8,7 +8,7 @@
   let jsButton: OurJsButton;
 
   $: if (toggleValue) {
-    toggleText = 'on';
+    toggleText = 'on101010';
   } else {
     toggleText = 'off';
   }
@@ -21,8 +21,8 @@
 
 <div class="greeting-form">
   <h1>{greeting}</h1>
-  <p>Value: {toggleText}</p>
-  <OurButton ref="button" on:click={toggle}>Toggle Typescript button</OurButton>
+  <p data-test-id="text">Value: {toggleText}</p>
+  <OurButton on:click={toggle}>Toggle Typescript button</OurButton>
   <OurJsButton on:click={toggle} bind:this={jsButton}>Toggle Javascript button</OurJsButton>
 </div>
 

@@ -24,9 +24,6 @@ const config = {
         use: {
           loader: 'svelte-loader',
           options: {
-            compilerOptions: {
-              compilerWarnings: 'a11y-img-redundant-alt:ignore'
-            },
             emitCss: true,
             preprocess: sveltePreprocess({}),
           }

@@ -39,18 +39,22 @@ object CompilerIntegrationSpec extends BaseSpec {
     result.entries.size ==> 2
 
     result.entries.head.inputFile ==> componentA
-    result.entries.head.filesWritten.size ==> 1
-    Files.exists(result.entries.head.filesWritten.head) ==> true
-    result.entries.head.filesWritten.head ==> (targetDir / "svelte" / "component-a.js").toPath
+    result.entries.head.filesWritten.size ==> 2
+    result.entries.head.filesWritten.foreach { fileWritten =>
+      Files.exists(fileWritten) ==> true
+    }
+    result.entries.head.filesWritten ==> Set(
+      (targetDir / "svelte" / "component-a.js").toPath, 
+      (targetDir / "svelte" / "component-a.css").toPath
+    )
     result.entries.head.filesRead ==> Set(componentA.toPath, componentB.toPath, componentC.toPath)
-    // If CSS dependency is tracked properly, the below should have been true.
-    // See more: https://github.com/GIVESocialMovement/sbt-vuefy/issues/20
-//            result.entries.head.filesRead ==> inputs.map(_.toPath).toSet ++ Set(baseInputDir / "dependencies" / "style.scss")
 
     result.entries(1).inputFile ==> componentD
     result.entries(1).filesWritten.size ==> 1
-    Files.exists(result.entries(1).filesWritten.head) ==> true
-    result.entries(1).filesWritten.head ==> (targetDir / "svelte" / "component-d.js").toPath
+    result.entries(1).filesWritten.foreach { fileWritten =>
+      Files.exists(fileWritten) ==> true
+    }
+    result.entries(1).filesWritten ==> Set((targetDir / "svelte" / "component-d.js").toPath)
     result.entries(1).filesRead ==> Set(componentD.toPath, componentC.toPath)
   }
 
