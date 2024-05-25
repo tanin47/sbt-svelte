@@ -19,7 +19,7 @@
   }
 </script>
 
-<div class="greeting-form">
+<div class="greeting-form bg-sky-800">
   <h1>{greeting}</h1>
   <p data-test-id="text">Value: {toggleText}</p>
   <OurButton on:click={toggle}>Toggle Typescript button</OurButton>

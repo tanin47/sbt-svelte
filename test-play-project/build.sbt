@@ -4,8 +4,10 @@ version := "1.0-SNAPSHOT"
 
 bloopAggregateSourceDependencies in Global := true
 
+val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
+
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtWeb, SbtSvelte)
+  .enablePlugins(PlayScala, SbtWeb, SbtSvelte, SbtPostcss)
   .settings(
     scalaVersion := "2.13.11",
     libraryDependencies ++= Seq(
@@ -14,8 +16,7 @@ lazy val root = (project in file("."))
     ),
     Assets / SvelteKeys.svelte / SvelteKeys.prodCommands := Set("stage"),
     Assets / SvelteKeys.svelte / SvelteKeys.webpackBinary := {
-      // Detect windows
-      if (sys.props.getOrElse("os.name", "").toLowerCase.contains("win")) {
+      if (isWin) {
         (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
       } else {
         (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
@@ -25,6 +26,15 @@ lazy val root = (project in file("."))
     // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
     // Webpack shouldn't compile non-entry-components directly. It's wasteful.
     Assets / SvelteKeys.svelte / excludeFilter := "_*",
+    postcss / PostcssKeys.binaryFile := {
+      if (isWin) {
+        (new File(".") / "node_modules" / ".bin" / "postcss.cmd").getAbsolutePath
+      } else {
+        (new File(".") / "node_modules" / ".bin" / "postcss").getAbsolutePath
+      }
+    },
+    postcss / PostcssKeys.inputFile := "./public/stylesheets/tailwindbase.css",
+    Assets / pipelineStages ++= Seq(postcss)
   )
 
 addCommandAlias(
