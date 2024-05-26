@@ -146,6 +146,4 @@ The project welcomes any contribution. Here are the steps for testing when devel
 
 Publish
 --------
-1. Get the latest master by running `git fetch`.
-2. Run `sbt clean publishSigned`
-3. Tag the current commit with the current version: `git tag -a v[VERSION] -m "Version v[VERSION]"` and `git push origin --tags`.
+We are not publishing a jar file anymore. You can use it by referencing a github URL with a specific commit directly.
