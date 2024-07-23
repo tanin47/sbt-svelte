@@ -16,3 +16,4 @@ package-lock.json
 target
 yarn-error.log
 yarn.lock
+metals.sbt

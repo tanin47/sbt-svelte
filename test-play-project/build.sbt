@@ -2,8 +2,6 @@ name := """test-play-project"""
 organization := "tanin.play.svelte"
 version := "1.0-SNAPSHOT"
 
-bloopAggregateSourceDependencies in Global := true
-
 val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
 
 lazy val root = (project in file("."))
