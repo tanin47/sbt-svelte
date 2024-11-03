@@ -12,7 +12,7 @@
   };
 </script>
 
-<button class="our-js-button" on:click={click}>
+<button class="our-js-button bg-sky-500 p-2 rounded-lg" on:click={click}>
   <slot />
 </button>
 

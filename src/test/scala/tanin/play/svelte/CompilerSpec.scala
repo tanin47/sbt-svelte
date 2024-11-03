@@ -73,7 +73,7 @@ object CompilerSpec extends BaseSpec {
           ),
           eq(sourceDir),
           varArgsThat[(String, String)] { varargs =>
-            varargs.size == 1 && varargs.head == ("NODE_PATH" -> nodeModulesDir.getCanonicalPath)
+           varargs.toSet == Set("NODE_PATH" -> nodeModulesDir.getCanonicalPath, "ENABLE_SVELTE_CHECK" -> "true")
           }
         )
       }
@@ -127,7 +127,7 @@ object CompilerSpec extends BaseSpec {
           ),
           eq(sourceDir),
           varArgsThat[(String, String)] { varargs =>
-            varargs.size == 1 && varargs.head == ("NODE_PATH" -> nodeModulesDir.getCanonicalPath)
+            varargs.toSet == Set("NODE_PATH" -> nodeModulesDir.getCanonicalPath, "ENABLE_SVELTE_CHECK" -> "true")
           }
         )
       }

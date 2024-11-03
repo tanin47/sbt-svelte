@@ -128,6 +128,83 @@ Therefore, we can use the component as shown below:
 
 Please see the folder `test-play-project` for a complete example.
 
+Use the Hot Module Reload (HMR)
+--------------------------------
+
+The setup for HMR is complex but completely worth it because it auto-reloads the JS code changes without reloading the page or triggering the recompilation of Play Framework. 
+It's 10x faster for development. If you have issues with setting it up, please open an issue.
+
+### 1. Make hmr.js and set up the command.
+
+Please copy `test-play-project/hmr.js` to your project and set up the hmr command in `package.json` as shown below:
+
+```
+  "scripts": {
+    "hmr": "NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js"
+  },
+```
+
+### 2. Configure the webpack config
+
+Detect `ENABLE_HMR` and reconfigure the `svelte-loader` as shown below:
+
+```
+if (process.env.ENABLE_HMR) {
+  console.log('Enable HMR')
+  for (const rule of config.module.rules) {
+    if (rule.use.loader === 'svelte-loader') {
+      rule.use.options.emitCss = false
+      rule.use.options.compilerOptions.dev = true
+      rule.use.options.hotReload = true
+    }
+  }
+  config.plugins.push(new webpack.HotModuleReplacementPlugin())
+}
+```
+
+### 3. Configure the Play Framework to redirect assets to the HMR server
+
+In `hmr.js`, the HMR server will listen to the port 9001. We will need to redirect the assets to the HMR server by making the Assets controller as follows:
+
+```
+@Singleton
+class AssetsController @Inject()(
+  errorHandler: HttpErrorHandler,
+  meta: AssetsMetadata,
+  env: Environment
+)(implicit ec: ExecutionContext)
+    extends Assets(errorHandler, meta, env) {
+
+  override def versioned(path: String, file: Assets.Asset): Action[AnyContent] = Action.async { req =>
+    if (
+      env.mode == Mode.Dev &&
+        (
+          file.name.startsWith("svelte_") ||
+            file.name.startsWith("svelte/") ||
+            file.name.startsWith("stylesheets/tailwindbase.css")
+          )
+    ) {
+      Future(Redirect(s"http://localhost:9001/assets/${file.name}"))
+    } else {
+      super.versioned(path, file)(req)
+    }
+  }
+}
+```
+
+Then, you configure `conf/routes` as follows:
+
+```
+GET     /assets/*file               controllers.AssetsController.versioned(path="/public", file: Asset)
+```
+
+### 4. Try it out
+
+Now, you can run `sbt run` in one terminal and `npm run hmr` in another terminal.
+
+Go to `http://localhost:9000` and you should see the page. Now, you can make changes to the svelte components and see the changes immediately.
+
+See a working example in the `test-play-project` folder.
 
 Interested in using the plugin?
 --------------------------------

@@ -6,10 +6,16 @@ import play.api.mvc.{ AbstractController, ControllerComponents }
 import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
-class HomeController @Inject()(controllerComponents: ControllerComponents)(implicit ec: ExecutionContext)
+class HomeController @Inject()(
+  controllerComponents: ControllerComponents
+)(implicit ec: ExecutionContext)
     extends AbstractController(controllerComponents) {
 
   def index = Action.async {
     Future(Ok(views.html.index("Welcome to <b>sbt-svelte</b></script>")))
+  }
+
+  def test = Action.async {
+    Future(Ok(views.html.test()))
   }
 }
