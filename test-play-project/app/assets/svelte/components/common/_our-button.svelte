@@ -8,6 +8,7 @@
 </script>
 
 <button class="our-button" on:click={click}>
+  test
   <slot />
 </button>
 

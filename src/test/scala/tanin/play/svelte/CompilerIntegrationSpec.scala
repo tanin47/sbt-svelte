@@ -38,7 +38,7 @@ object CompilerIntegrationSpec extends BaseSpec {
     result.success ==> true
     result.entries.size ==> 2
 
-    result.entries.head.inputFile ==> componentA
+    result.entries.head.inputFileOpt ==> componentA
     result.entries.head.filesWritten.size ==> 2
     result.entries.head.filesWritten.foreach { fileWritten =>
       Files.exists(fileWritten) ==> true
@@ -49,7 +49,7 @@ object CompilerIntegrationSpec extends BaseSpec {
     )
     result.entries.head.filesRead ==> Set(componentA.toPath, componentB.toPath, componentC.toPath)
 
-    result.entries(1).inputFile ==> componentD
+    result.entries(1).inputFileOpt ==> componentD
     result.entries(1).filesWritten.size ==> 1
     result.entries(1).filesWritten.foreach { fileWritten =>
       Files.exists(fileWritten) ==> true

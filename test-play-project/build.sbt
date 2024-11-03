@@ -1,3 +1,5 @@
+import tanin.play.svelte.SbtSvelte.autoImport.SvelteKeys.svelte
+
 name := """test-play-project"""
 organization := "tanin.play.svelte"
 version := "1.0-SNAPSHOT"
@@ -12,18 +14,17 @@ lazy val root = (project in file("."))
       guice,
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
     ),
-    Assets / SvelteKeys.svelte / SvelteKeys.prodCommands := Set("stage"),
-    Assets / SvelteKeys.svelte / SvelteKeys.webpackBinary := {
+    svelte / SvelteKeys.webpackBinary := {
       if (isWin) {
         (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
       } else {
         (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
       }
     },
-    Assets / SvelteKeys.svelte / SvelteKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
+    svelte / SvelteKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
     // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
     // Webpack shouldn't compile non-entry-components directly. It's wasteful.
-    Assets / SvelteKeys.svelte / excludeFilter := "_*",
+    svelte / excludeFilter := "_*",
     postcss / PostcssKeys.binaryFile := {
       if (isWin) {
         (new File(".") / "node_modules" / ".bin" / "postcss.cmd").getAbsolutePath
@@ -32,7 +33,8 @@ lazy val root = (project in file("."))
       }
     },
     postcss / PostcssKeys.inputFile := "./public/stylesheets/tailwindbase.css",
-    Assets / pipelineStages ++= Seq(postcss)
+    pipelineStages ++= Seq(postcss, svelte, digest),
+    TestAssets / pipelineStages ++= Seq(postcss, svelte),
   )
 
 addCommandAlias(

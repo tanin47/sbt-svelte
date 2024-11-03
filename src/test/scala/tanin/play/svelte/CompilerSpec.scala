@@ -101,11 +101,11 @@ object CompilerSpec extends BaseSpec {
         result.success ==> true
         result.entries.size ==> 2
 
-        Files.isSameFile(result.entries.head.inputFile.toPath, inputPaths.head) ==> true
+        Files.isSameFile(result.entries.head.inputFileOpt.toPath, inputPaths.head) ==> true
         result.entries.head.filesRead ==> Set((sourceDir / "a" / "b" / "c.svelte").toPath)
         result.entries.head.filesWritten ==> Set((targetDir / "a" / "b" / "c.js").toPath)
 
-        Files.isSameFile(result.entries(1).inputFile.toPath, inputPaths(1)) ==> true
+        Files.isSameFile(result.entries(1).inputFileOpt.toPath, inputPaths(1)) ==> true
         result.entries(1).filesRead ==> Set((sourceDir / "a" / "b.svelte").toPath, (sourceDir / "a" / "b" / "c.svelte").toPath)
         result.entries(1).filesWritten ==> Set((targetDir / "a" / "b.js").toPath, (targetDir / "a" / "b.css").toPath)
 

@@ -200,7 +200,7 @@ class Compiler(
       }
     ).mkString(" ")
 
-    val exitCode = shell.execute(logger, cmd, sourceDir, "NODE_PATH" -> nodeModules.getCanonicalPath)
+    val exitCode = shell.execute(logger, cmd, sourceDir, "NODE_PATH" -> nodeModules.getCanonicalPath, "ENABLE_SVELTE_CHECK" -> "true")
     val success = exitCode == 0
 
     CompilationResult(
