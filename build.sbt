@@ -3,7 +3,7 @@ name := "sbt-svelte"
 lazy val `sbt-svelte` = (project in file("."))
   .enablePlugins(SbtWebBase)
   .settings(
-    scalaVersion := "2.12.18",
+    scalaVersion := "2.12.20",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play-json"   % "2.8.1",
       "org.mockito"       % "mockito-core" % "3.0.0" % Test,
@@ -12,7 +12,7 @@ lazy val `sbt-svelte` = (project in file("."))
     testFrameworks += new TestFramework("utest.runner.Framework")
   )
 
-addSbtJsEngine("1.2.3")
+addSbtJsEngine("1.3.9")
 
 addCommandAlias(
   "fmt",

@@ -5,5 +5,5 @@
 <div class="beautiful-box">A<ComponentB /></div>
 
 <style lang="scss">
-  @import './dependencies/style';
+  @use './dependencies/style';
 </style>
