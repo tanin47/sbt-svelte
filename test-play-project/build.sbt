@@ -7,7 +7,7 @@ val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtWeb, SbtSvelte, SbtPostcss)
   .settings(
-    scalaVersion := "2.13.11",
+    scalaVersion := "2.13.16",
     libraryDependencies ++= Seq(
       guice,
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
