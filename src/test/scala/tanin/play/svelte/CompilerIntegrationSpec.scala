@@ -44,7 +44,7 @@ object CompilerIntegrationSpec extends BaseSpec {
       Files.exists(fileWritten) ==> true
     }
     result.entries.head.filesWritten ==> Set(
-      (targetDir / "svelte" / "component-a.js").toPath, 
+      (targetDir / "svelte" / "component-a.js").toPath,
       (targetDir / "svelte" / "component-a.css").toPath
     )
     result.entries.head.filesRead ==> Set(componentA.toPath, componentB.toPath, componentC.toPath)

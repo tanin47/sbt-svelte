@@ -8,9 +8,10 @@
 </script>
 
 <button class="our-button" on:click={click}>
+  test
   <slot />
 </button>
 
 <style lang="scss">
-  @import './button';
+  @use './button';
 </style>

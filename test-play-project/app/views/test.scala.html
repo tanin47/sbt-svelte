@@ -1,0 +1,15 @@
+@()
+
+<link rel="stylesheet" href='@routes.AssetsController.versioned("stylesheets/tailwindbase.css")'>
+<script src='@routes.AssetsController.versioned("svelte/components/test-form.js")'></script>
+<link rel="stylesheet" href='@routes.AssetsController.versioned("svelte/components/test-form.css")'>
+
+<div id="app"></div>
+
+<script>
+  new TestForm.default({
+    target: document.getElementById('app'),
+    props: {
+    }
+  });
+</script>
