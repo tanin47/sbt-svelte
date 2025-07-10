@@ -33,52 +33,7 @@ lazy val SbtSvelte = RootProject(uri("https://github.com/tanin47/sbt-svelte.git#
 
 ### 2. Configure Webpack config file.
 
-Create `webpack.config.js. Below is a working minimal example:
-
-```
-"use strict";
-
-const sveltePreprocess = require("svelte-preprocess");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require("path");
-
-module.exports = {
-  mode: 'development',
-  resolve: {
-    alias: {
-      svelte: path.join(process.env.NODE_PATH, 'svelte/src/runtime')
-    },
-    extensions: ['.mjs', '.js', '.svelte'],
-    mainFields: ['svelte', 'browser', 'module', 'main'],
-    conditionNames: ['svelte', 'browser']
-  },
-  module: {
-    rules: [
-      {
-        test: /\.svelte$/,
-        use: {
-          loader: 'svelte-loader',
-          options: {
-            emitCss: true,
-            preprocess: sveltePreprocess({}),
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
-      },
-    ]
-  },
-  plugins: [
-    new MiniCssExtractPlugin(),
-  ],
-};
-```
+Create `webpack.config.js by copying from `test-play-project/webpack.config.js`
 
 You should NOT specify `module.exports.output` because sbt-svelte will automatically set the field.
 
