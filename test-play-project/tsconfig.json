@@ -2,9 +2,12 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "allowJs": true,
+    "strict": true,
     "jsx": "preserve",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["svelte"],
+    "verbatimModuleSyntax": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "target"]
 }

@@ -55,9 +55,6 @@ const config = {
   stats: 'minimal',
   entry,
   resolve: {
-    alias: {
-      svelte: pathModule.resolve(process.env.NODE_PATH, 'svelte/src/runtime')
-    },
     extensions: ['.mjs', '.js', '.svelte'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
     conditionNames: ['svelte', 'browser']
@@ -65,7 +62,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.svelte$/,
+        test: /\.svelte(\.ts)?$/,
         use: {
           loader: 'svelte-loader',
           options: {
@@ -73,6 +70,9 @@ const config = {
             preprocess: sveltePreprocess({}),
             compilerOptions: {
               dev: false,
+              compatibility: {
+                componentApi: 4
+              }
             },
             hotReload: false
           }
@@ -105,8 +105,8 @@ const config = {
   },
   performance: {
     hints: 'error',
-    maxAssetSize: 1500000,
-    maxEntrypointSize: 1500000,
+    maxAssetSize: 2000000,
+    maxEntrypointSize: 2000000,
     assetFilter: function(assetFilename) {
       return assetFilename.endsWith('.js');
     }
