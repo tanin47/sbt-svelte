@@ -22,16 +22,35 @@ const replacePathVariables = (path, data) => {
 };
 
 const writeStats = (compilation, assets) => {
+  const processedModules = new Set()
   const ms = [];
-  for (let module of compilation.getStats().toJson().modules) {
-    let reasons = [];
+
+  const modules = compilation
+      .getStats()
+      .toJson({
+        assets: false,
+        chunks: false,
+        chunkGroups: false,
+        entrypoints: false,
+        module: true,
+        errors: false,
+        warnings: false
+      })
+      .modules
+  for (let module of modules) {
+    if (processedModules.has(module.name)) {
+      continue;
+    }
+
+    let reasons = new Set();
     for (let reason of module.reasons) {
-      reasons.push(reason.moduleName);
+      reasons.add(reason.moduleName);
     }
     ms.push({
       name: module.name,
-      reasons: reasons
+      reasons: Array.from(reasons)
     })
+    processedModules.add(module.name)
   }
 
   const s = JSON.stringify(ms);
