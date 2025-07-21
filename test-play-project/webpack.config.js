@@ -15,7 +15,8 @@ for (const relativePath of glob.globSync('./app/assets/svelte/**/*.svelte')) {
   const key = relativePath.substring('app/assets/'.length, relativePath.length - '.svelte'.length)
 
   entry[key] = [
-    "webpack-hot-middleware/client?path=http://localhost:9001/__webpack_hmr&timeout=5000",
+    // See why we need reload=true for Svelte 5: https://github.com/sveltejs/svelte-loader/issues/250
+    "webpack-hot-middleware/client?path=http://localhost:9001/__webpack_hmr&timeout=5000&reload=true",
     "./public/stylesheets/tailwindbase.css",
     `./${relativePath}`
   ]
